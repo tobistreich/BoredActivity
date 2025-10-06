@@ -14,3 +14,24 @@ This project took about 6 hours to program and make functional including 2 hours
   - activity.Activity (the basic name/description of the given activity)
   - activity.Type (pretty self explanatory)
   - activity.Participants (number of participants)
+
+---
+
+# Projekteinführung
+Dieses Projekt ist ein einfaches C#-Programm, das Ihnen eine Aktivität von einer Web-API namens Bored-Activity (https://bored-api.appbrewery.com/) bereitstellt. Anschließend speichert es die neu angeforderte Aktivität über SQLite und zeigt Ihnen alle Ihre zuvor gespeicherten Aktivitäten an.
+
+Viel Spaß (nicht) bei der Langeweile
+
+# Umfang
+Ziel ist es, ein C#-Projekt zu erstellen, das auf eine API zugreift und etwas in einer SQLite-Datenbank speichert
+
+# Zeitaufwand
+Es dauerte etwa 6 Stunden, dieses Projekt zu programmieren und funktionsfähig zu machen, einschließlich 2 Stunden Recherche zu APIs und Erlernen der Datenbanknutzung in C#.
+
+# Verfahren
+- Die ausgewählte API wurde ausgewählt, weil sie sehr einfach ist und in noch einfachere Verwendungszwecke unterteilt werden kann, was perfekt für den Projektumfang war. Sie können das Rauschen der API-Antwort reduzieren, indem Sie einfach alle unerwünschten Aktivitäten ausschließen. Attribute, um nur die wichtigen Attribute beizubehalten, die Sie benötigen. In meinem Fall waren das:
+    - Aktivität.Aktivität (der grundlegende Name/die grundlegende Beschreibung der angegebenen Aktivität)
+    - Aktivität.Typ (ziemlich selbsterklärend)
+    - Aktivität.Teilnehmer (Anzahl der Teilnehmer)
+
+---
