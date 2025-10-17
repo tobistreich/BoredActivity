@@ -5,6 +5,7 @@ namespace HttpClientSample
 {
     public class BoredActivity
     {
+        public int Id { get; set; }
         public string Activity { get; set; } = "";
         public string Type { get; set; } = "";
         public int Participants { get; set; }
@@ -60,20 +61,43 @@ namespace HttpClientSample
             connection.Open();
 
             var selectCmd = connection.CreateCommand();
-            selectCmd.CommandText = "SELECT Activity, Type, Participants FROM Activities";
+            selectCmd.CommandText = "SELECT Id, Activity, Type, Participants FROM Activities";
 
             using var reader = selectCmd.ExecuteReader();
             while (reader.Read())
             {
                 activities.Add(new BoredActivity
                 {
-                    Activity = reader.GetString(0),
-                    Type = reader.GetString(1),
-                    Participants = reader.GetInt32(2)
+                    Id = reader.GetInt32(0),
+                    Activity = reader.GetString(1),
+                    Type = reader.GetString(2),
+                    Participants = reader.GetInt32(3)
                 });
             }
 
             return activities;
+        }
+
+        // Mehrere IDs gleichzeitig löschen
+        public void DeleteActivitiesByIds(IEnumerable<int> ids)
+        {
+            using var connection = new SqliteConnection(_connectionString);
+            connection.Open();
+
+            var deleteCmd = connection.CreateCommand();
+            // Platzhalter dynamisch generieren: $id0, $id1, $id2 ...
+            var parameters = ids.Select((id, index) => $"$id{index}").ToList();
+            deleteCmd.CommandText = $"DELETE FROM Activities WHERE Id IN ({string.Join(",", parameters)})";
+
+            int i = 0;
+            foreach (var id in ids)
+            {
+                deleteCmd.Parameters.AddWithValue(parameters[i], id);
+                i++;
+            }
+
+            int rows = deleteCmd.ExecuteNonQuery();
+            Console.WriteLine($"{rows} Aktivität(en) gelöscht.");
         }
     }
 
@@ -94,16 +118,37 @@ namespace HttpClientSample
                 return;
             }
 
-            // Ausgabe
             Console.WriteLine($"Neue Aktivität: {activity.Activity} ({activity.Type}, Teilnehmer: {activity.Participants})");
             repo.SaveActivity(activity);
-            Console.WriteLine("✅ Aktivität in DB gespeichert.");
+            Console.WriteLine("Aktivität in DB gespeichert.");
 
-            // Alle Aktivitäten anzeigen
-            Console.WriteLine("\n📋 Alle gespeicherten Aktivitäten:");
+            Console.WriteLine("\nAlle gespeicherten Aktivitäten:");
             foreach (var act in repo.GetAllActivities())
             {
-                Console.WriteLine($"- {act.Activity} ({act.Type}, Teilnehmer: {act.Participants})");
+                Console.WriteLine($"- ID: {act.Id} {act.Activity} ({act.Type}, Teilnehmer: {act.Participants})");
+            }
+
+            Console.WriteLine("\nMöchten Sie Aktivitäten löschen? (y/n)");
+            var input = Console.ReadLine();
+            if (input?.ToLower() == "y")
+            {
+                Console.Write("Bitte geben Sie die ID(s) mit Komma getrennt ein (z.B. 1,3,5): ");
+                var idInput = Console.ReadLine();
+
+                if (!string.IsNullOrWhiteSpace(idInput))
+                {
+                    var ids = idInput
+                        .Split(',')
+                        .Select(s => s.Trim())
+                        .Where(s => int.TryParse(s, out _))
+                        .Select(int.Parse)
+                        .ToList();
+
+                    if (ids.Any())
+                        repo.DeleteActivitiesByIds(ids);
+                    else
+                        Console.WriteLine("Keine gültigen IDs eingegeben.");
+                }
             }
         }
     }

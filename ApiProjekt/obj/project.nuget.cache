@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "EURNbm4zcbY=",
+  "dgSpecHash": "jxmpU6SN5cY=",
   "success": true,
-  "projectFilePath": "C:\\Users\\tobias.streich\\Documents\\code\\C#\\ApiProjekt\\ApiProjekt\\ApiProjekt.csproj",
+  "projectFilePath": "C:\\Users\\tobias.streich\\Documents\\code\\C#\\BoredActivity\\ApiProjekt\\ApiProjekt.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tobias.streich\\.nuget\\packages\\microsoft.data.sqlite\\10.0.0-rc.1.25451.107\\microsoft.data.sqlite.10.0.0-rc.1.25451.107.nupkg.sha512",
     "C:\\Users\\tobias.streich\\.nuget\\packages\\microsoft.data.sqlite.core\\10.0.0-rc.1.25451.107\\microsoft.data.sqlite.core.10.0.0-rc.1.25451.107.nupkg.sha512",
