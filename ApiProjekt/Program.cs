@@ -129,6 +129,7 @@ namespace HttpClientSample
             }
 
             Console.WriteLine("\nMöchten Sie Aktivitäten löschen? (y/n)");
+            Console.WriteLine("");
             var input = Console.ReadLine();
             if (input?.ToLower() == "y")
             {
